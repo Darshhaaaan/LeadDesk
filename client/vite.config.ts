@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const clientRoot = fileURLToPath(new URL('.', import.meta.url));
 const projectRoot = fileURLToPath(new URL('..', import.meta.url));
-const apiTarget = process.env.VITE_DEV_API_TARGET ?? 'http://localhost:3001';
+const apiTarget = process.env.VITE_DEV_API_TARGET;
 
 export default defineConfig({
   root: clientRoot,
