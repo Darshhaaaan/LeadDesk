@@ -7,7 +7,7 @@ const clientRoot = fileURLToPath(new URL('.', import.meta.url));
 const projectRoot = fileURLToPath(new URL('..', import.meta.url));
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, projectRoot, 'VITE_');
+  const env = loadEnv(mode, projectRoot, '');
   const apiTarget = env.DEV_API_TARGET?.trim() || 'http://localhost:3001';
 
   return {
