@@ -4,6 +4,7 @@ import { hashToken } from '../src/lib/crypto.ts';
 import {
   buildFrontendUrl,
   clearEmailOutbox,
+  formatEmailErrorForLog,
   getEmailOutbox,
   resetEmailServiceForTests,
 } from '../src/services/email.service.ts';
@@ -133,6 +134,51 @@ describe('Transactional email templates', () => {
     expect(buildFrontendUrl('reset-password?token=abc')).toBe(
       'http://localhost:5173/reset-password?token=abc'
     );
+  });
+});
+
+describe('Email failure logging', () => {
+  it('keeps the real error message, stack, and SMTP details for deployment logs', () => {
+    const error = Object.assign(
+      new Error('Invalid login: 535-5.7.8 Username and Password not accepted'),
+      {
+        code: 'EAUTH',
+        responseCode: 535,
+        response: '535-5.7.8 Username and Password not accepted',
+      }
+    );
+
+    const details = formatEmailErrorForLog(error);
+
+    expect(details.name).toBe('Error');
+    expect(details.message).toContain('Invalid login');
+    expect(details.stack).toContain('Invalid login');
+    expect(details.code).toBe('EAUTH');
+    expect(details.responseCode).toBe(535);
+    expect(details.response).toContain('535-5.7.8');
+  });
+
+  it('redacts recipients, reset tokens, and nested causes', () => {
+    const error = new Error(
+      'Delivery to person@example.com failed: https://app.example.com/reset-password?token=secret-token'
+    );
+    error.cause = new Error('Connection refused for person@example.com');
+
+    const details = formatEmailErrorForLog(error);
+
+    expect(details.message).not.toContain('person@example.com');
+    expect(details.message).not.toContain('secret-token');
+    expect(details.message).toContain('[redacted-email]');
+    expect(details.message).toContain('token=[redacted]');
+    expect(details.cause?.message).not.toContain('person@example.com');
+    expect(details.cause?.message).toContain('Connection refused');
+  });
+
+  it('handles non-Error values thrown by a transport', () => {
+    expect(formatEmailErrorForLog('SMTP unavailable')).toEqual({
+      name: 'UnknownError',
+      message: 'SMTP unavailable',
+    });
   });
 });
 

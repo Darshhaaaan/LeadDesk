@@ -93,15 +93,109 @@ const getEmailTransporter = (): Transporter | null => {
   return cachedTransporter;
 };
 
+interface LoggedEmailError {
+  name: string;
+  message: string;
+  stack?: string;
+  code?: string | number;
+  errno?: string | number;
+  syscall?: string;
+  hostname?: string;
+  address?: string;
+  port?: number;
+  responseCode?: number | string;
+  response?: string;
+  cause?: LoggedEmailError;
+}
+
+const EMAIL_ADDRESS_PATTERN = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi;
+const RESET_TOKEN_PATTERN = /([?&]token=)[^&\s]+/gi;
+const MAX_ERROR_CAUSE_DEPTH = 3;
+
+const redactSensitiveText = (value: string): string => {
+  let redacted = value.replace(EMAIL_ADDRESS_PATTERN, '[redacted-email]');
+  redacted = redacted.replace(RESET_TOKEN_PATTERN, '$1[redacted]');
+
+  if (env.SMTP_PASS) {
+    redacted = redacted.split(env.SMTP_PASS).join('[redacted]');
+  }
+
+  return redacted;
+};
+
+/**
+ * Converts SMTP and template errors into a log-safe object. Deployment logs
+ * need the real message and stack, but must never contain recipients, reset
+ * tokens, or SMTP credentials.
+ */
+export const formatEmailErrorForLog = (error: unknown, depth = 0): LoggedEmailError => {
+  if (!(error instanceof Error)) {
+    return {
+      name: 'UnknownError',
+      message: redactSensitiveText(String(error)),
+    };
+  }
+
+  const details: LoggedEmailError = {
+    name: error.name,
+    message: redactSensitiveText(error.message || '(no error message)'),
+  };
+
+  if (error.stack) {
+    details.stack = redactSensitiveText(error.stack);
+  }
+
+  const transportError = error as Error & {
+    code?: unknown;
+    errno?: unknown;
+    syscall?: unknown;
+    hostname?: unknown;
+    address?: unknown;
+    port?: unknown;
+    responseCode?: unknown;
+    response?: unknown;
+    cause?: unknown;
+  };
+
+  if (typeof transportError.code === 'string' || typeof transportError.code === 'number') {
+    details.code = transportError.code;
+  }
+  if (typeof transportError.errno === 'string' || typeof transportError.errno === 'number') {
+    details.errno = transportError.errno;
+  }
+  if (typeof transportError.syscall === 'string') {
+    details.syscall = transportError.syscall;
+  }
+  if (typeof transportError.hostname === 'string') {
+    details.hostname = transportError.hostname;
+  }
+  if (typeof transportError.address === 'string') {
+    details.address = transportError.address;
+  }
+  if (typeof transportError.port === 'number') {
+    details.port = transportError.port;
+  }
+  if (typeof transportError.responseCode === 'number' || typeof transportError.responseCode === 'string') {
+    details.responseCode = transportError.responseCode;
+  }
+  if (typeof transportError.response === 'string') {
+    details.response = redactSensitiveText(transportError.response);
+  }
+  if (depth < MAX_ERROR_CAUSE_DEPTH && transportError.cause instanceof Error) {
+    details.cause = formatEmailErrorForLog(transportError.cause, depth + 1);
+  }
+
+  return details;
+};
+
 const logDeliveryFailure = (template: EmailTemplateName, error: unknown): void => {
   if (env.NODE_ENV === 'test') {
     return;
   }
 
-  // Never log recipients, message bodies, reset tokens, or SMTP credentials.
   console.error('[email] delivery failed', {
     template,
-    errorName: error instanceof Error ? error.name : 'UnknownError',
+    ...formatEmailErrorForLog(error),
   });
 };
 
