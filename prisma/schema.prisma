@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum LeadStatus {
+  New
+  Contacted
+  Qualified
+  Converted
+  Lost
+}
+
+enum LeadActivityType {
+  Created
+  Updated
+  StatusChanged
+}
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  name         String   @db.VarChar(120)
+  email        String   @unique @db.VarChar(320)
+  passwordHash String
+  tokenVersion Int      @default(0)
+  createdAt    DateTime @default(now()) @db.Timestamptz
+  updatedAt    DateTime @updatedAt @db.Timestamptz
+
+  passwordResets PasswordResetToken[]
+  leads          Lead[]
+  leadActivities LeadActivity[]
+}
+
+model PasswordResetToken {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String    @db.Uuid
+  tokenHash String    @unique
+  expiresAt DateTime  @db.Timestamptz
+  usedAt    DateTime? @db.Timestamptz
+  createdAt DateTime  @default(now()) @db.Timestamptz
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Lead {
+  id                String     @id @default(uuid()) @db.Uuid
+  userId            String     @db.Uuid
+  name              String     @db.VarChar(120)
+  email             String     @db.VarChar(320)
+  phoneNumber       String?    @db.VarChar(40)
+  company           String?    @db.VarChar(160)
+  serviceInterested String?    @db.VarChar(160)
+  status            LeadStatus @default(New)
+  followUpDate      DateTime?  @db.Date
+  notes             String?    @db.Text
+  createdAt         DateTime   @default(now()) @db.Timestamptz
+  updatedAt         DateTime   @updatedAt @db.Timestamptz
+
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activities LeadActivity[]
+
+  @@index([userId])
+  @@index([userId, status])
+  @@index([userId, createdAt])
+  @@index([userId, followUpDate])
+  @@index([userId, name])
+}
+
+model LeadActivity {
+  id          String           @id @default(uuid()) @db.Uuid
+  leadId      String           @db.Uuid
+  userId      String           @db.Uuid
+  type        LeadActivityType
+  description String           @db.VarChar(500)
+  fromStatus  LeadStatus?
+  toStatus    LeadStatus?
+  createdAt   DateTime         @default(now()) @db.Timestamptz
+
+  lead Lead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([leadId, createdAt])
+}
