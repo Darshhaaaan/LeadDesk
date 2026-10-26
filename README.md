@@ -630,6 +630,8 @@ Build the static app with the API origin:
 VITE_API_BASE_URL=https://api.example.com npm run build
 ```
 
+On Vercel, add `VITE_API_BASE_URL` under **Project Settings → Environment Variables**, include the `https://` scheme, and redeploy. Vite embeds `VITE_*` values at build time, so changing the variable alone does not update an existing deployment. Use this name for the browser build; the backend-only `BACKEND_URL` variable is not exposed to the frontend.
+
 Deploy the contents of `dist/` to a static host or CDN.
 
 **Option A — separate origins (recommended for static hosting):**

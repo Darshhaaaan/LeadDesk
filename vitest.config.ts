@@ -4,7 +4,7 @@ export default defineConfig({
   test: {
     environment: 'node',
     setupFiles: ['./src/test/setup.ts'],
-    include: ['src/**/*.test.ts', 'tests/**/*.test.ts'],
+    include: ['src/**/*.test.ts', 'tests/**/*.test.ts', 'client/src/**/*.test.ts'],
     // Integration tests share one PostgreSQL database and each suite resets
     // user-owned rows. Running files sequentially keeps fixtures isolated.
     fileParallelism: false,

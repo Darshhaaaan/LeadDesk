@@ -1,3 +1,4 @@
+import { buildApiUrl } from './api-config';
 import type {
   ChangePasswordPayload,
   CreateLeadPayload,
@@ -13,8 +14,6 @@ import type {
 } from './types';
 
 export const AUTH_UNAUTHORIZED_EVENT = 'leadapp:unauthorized';
-
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? '').replace(/\/+$/, '');
 
 let csrfToken: string | null = null;
 
@@ -45,13 +44,6 @@ interface ApiFailure {
 
 type ApiResponse<T> = ApiSuccess<T> | ApiFailure;
 
-const buildUrl = (path: string): string => {
-  if (!API_BASE_URL) {
-    return path;
-  }
-  return `${API_BASE_URL}${path.startsWith('/') ? path : `/${path}`}`;
-};
-
 const parseJson = async (response: Response): Promise<unknown> => {
   try {
     return await response.json();
@@ -74,7 +66,7 @@ const fetchCsrfToken = async (force = false): Promise<string> => {
 
   let response: Response;
   try {
-    response = await fetch(buildUrl('/api/auth/csrf'), {
+    response = await fetch(buildApiUrl('/api/auth/csrf'), {
       method: 'GET',
       credentials: 'include',
       headers: { Accept: 'application/json' },
@@ -123,7 +115,7 @@ const execute = async <T>(
 
   let response: Response;
   try {
-    response = await fetch(buildUrl(path), {
+    response = await fetch(buildApiUrl(path), {
       method,
       credentials: 'include',
       headers,
