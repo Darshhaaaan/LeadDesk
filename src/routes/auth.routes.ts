@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import { requireAuth } from '../middleware/auth';
-import { csrfProtection, ensureCsrfToken } from '../middleware/csrf';
-import { asyncHandler } from '../middleware/asyncHandler';
-import { loginLimiter, registerLimiter, forgotPasswordLimiter, resetPasswordLimiter, changePasswordLimiter, deleteAccountLimiter } from '../middleware/rateLimit';
-import { sendSuccess } from '../lib/response';
-import { ApiError } from '../lib/errors';
-import { setAuthCookie, clearAuthCookie, getCookieValue } from '../lib/cookies';
-import { env } from '../config/env';
-import * as authService from '../services/auth.service';
+import { requireAuth } from '../middleware/auth.ts';
+import { csrfProtection, ensureCsrfToken } from '../middleware/csrf.ts';
+import { asyncHandler } from '../middleware/asyncHandler.ts';
+import { loginLimiter, registerLimiter, forgotPasswordLimiter, resetPasswordLimiter, changePasswordLimiter, deleteAccountLimiter } from '../middleware/rateLimit.ts';
+import { sendSuccess } from '../lib/response.ts';
+import { ApiError } from '../lib/errors.ts';
+import { setAuthCookie, clearAuthCookie, getCookieValue } from '../lib/cookies.ts';
+import { env } from '../config/env.ts';
+import * as authService from '../services/auth.service.ts';
 import {
   loginSchema,
   registerSchema,
@@ -15,7 +15,7 @@ import {
   resetPasswordSchema,
   changePasswordSchema,
   deleteAccountSchema,
-} from '../validation/auth.schemas';
+} from '../validation/auth.schemas.ts';
 
 const router = Router();
 

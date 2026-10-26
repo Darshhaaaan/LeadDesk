@@ -1,6 +1,6 @@
 import jwt, { type JwtPayload, type SignOptions } from 'jsonwebtoken';
-import { env } from '../config/env';
-import { ApiError } from './errors';
+import { env } from '../config/env.ts';
+import { ApiError } from './errors.ts';
 
 export interface AuthJwtPayload extends JwtPayload {
   sub: string;

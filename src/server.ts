@@ -1,7 +1,7 @@
 import { createApp } from './app.ts';
-import { env } from './config/env';
-import { prisma } from './lib/prisma';
-import { validateEmailConfiguration } from './services/email.service';
+import { env } from './config/env.ts';
+import { prisma } from './lib/prisma.ts';
+import { validateEmailConfiguration } from './services/email.service.ts';
 
 validateEmailConfiguration();
 

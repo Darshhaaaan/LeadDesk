@@ -8,8 +8,8 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/User'
-export type * from './models/PasswordResetToken'
-export type * from './models/Lead'
-export type * from './models/LeadActivity'
-export type * from './commonInputTypes'
+export type * from './models/User.ts'
+export type * from './models/PasswordResetToken.ts'
+export type * from './models/Lead.ts'
+export type * from './models/LeadActivity.ts'
+export type * from './commonInputTypes.ts'

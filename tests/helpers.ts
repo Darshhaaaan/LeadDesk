@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { createApp } from '../src/app';
+import { createApp } from '../src/app.ts';
 import {
   changePasswordLimiter,
   deleteAccountLimiter,
@@ -8,7 +8,7 @@ import {
   loginLimiter,
   registerLimiter,
   resetPasswordLimiter,
-} from '../src/middleware/rateLimit';
+} from '../src/middleware/rateLimit.ts';
 
 export const app = createApp();
 

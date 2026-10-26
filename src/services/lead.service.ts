@@ -1,13 +1,13 @@
-import { prisma } from '../lib/prisma';
-import { ApiError } from '../lib/errors';
-import type { Prisma } from '../generated/prisma/client';
+import { prisma } from '../lib/prisma.ts';
+import { ApiError } from '../lib/errors.ts';
+import type { Prisma } from '../generated/prisma/client.ts';
 import {
   isDateOnly,
   parseLeadDate,
   type CreateLeadInput,
   type LeadListQuery,
   type UpdateLeadInput,
-} from '../validation/lead.schemas';
+} from '../validation/lead.schemas.ts';
 
 export const leadSelect = {
   id: true,

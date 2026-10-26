@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import type { Request } from 'express';
-import { getCookieValues, getCookieValue } from '../src/lib/cookies';
+import { getCookieValues, getCookieValue } from '../src/lib/cookies.ts';
 
 const requestWithCookie = (cookie?: string): Request =>
   ({ headers: cookie === undefined ? {} : { cookie } }) as unknown as Request;

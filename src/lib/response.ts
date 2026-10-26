@@ -1,5 +1,5 @@
 import type { Response } from 'express';
-import { ApiError } from './errors';
+import { ApiError } from './errors.ts';
 
 export interface ApiErrorBody {
   success: false;

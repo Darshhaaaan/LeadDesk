@@ -1,17 +1,17 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { prisma } from '../src/lib/prisma';
-import { hashToken } from '../src/lib/crypto';
+import { prisma } from '../src/lib/prisma.ts';
+import { hashToken } from '../src/lib/crypto.ts';
 import {
   buildFrontendUrl,
   clearEmailOutbox,
   getEmailOutbox,
   resetEmailServiceForTests,
-} from '../src/services/email.service';
-import { renderWelcomeEmail } from '../src/emails/templates/welcome';
-import { renderPasswordResetEmail } from '../src/emails/templates/password-reset';
-import { renderPasswordChangedEmail } from '../src/emails/templates/password-changed';
-import { renderAccountDeletedEmail } from '../src/emails/templates/account-deleted';
-import type { EmailBrand } from '../src/emails/types';
+} from '../src/services/email.service.ts';
+import { renderWelcomeEmail } from '../src/emails/templates/welcome.ts';
+import { renderPasswordResetEmail } from '../src/emails/templates/password-reset.ts';
+import { renderPasswordChangedEmail } from '../src/emails/templates/password-changed.ts';
+import { renderAccountDeletedEmail } from '../src/emails/templates/account-deleted.ts';
+import type { EmailBrand } from '../src/emails/types.ts';
 import {
   AUTH_COOKIE,
   defaultRegisterPayload,
@@ -19,7 +19,7 @@ import {
   postWithCsrf,
   registerUser,
   resetRateLimits,
-} from './helpers';
+} from './helpers.ts';
 
 const brand: EmailBrand = {
   appName: 'LeadDesk',

@@ -1,6 +1,6 @@
 import rateLimit from 'express-rate-limit';
-import { ApiError, tooManyRequests } from '../lib/errors';
-import { sendError } from '../lib/response';
+import { ApiError, tooManyRequests } from '../lib/errors.ts';
+import { sendError } from '../lib/response.ts';
 
 const createLimiter = (windowMs: number, limit: number, message: string) =>
   rateLimit({

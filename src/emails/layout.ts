@@ -7,9 +7,9 @@
  * override inline colors in supporting clients).
  */
 
-import type { EmailBrand } from './types';
+import type { EmailBrand } from './types.ts';
 
-export type { EmailBrand } from './types';
+export type { EmailBrand } from './types.ts';
 
 export interface EmailLayoutOptions {
   brand: EmailBrand;

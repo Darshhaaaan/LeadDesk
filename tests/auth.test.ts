@@ -1,16 +1,16 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import request from 'supertest';
-import { createApp } from '../src/app';
-import { env } from '../src/config/env';
-import { prisma } from '../src/lib/prisma';
-import { hashToken } from '../src/lib/crypto';
+import { createApp } from '../src/app.ts';
+import { env } from '../src/config/env.ts';
+import { prisma } from '../src/lib/prisma.ts';
+import { hashToken } from '../src/lib/crypto.ts';
 import {
   registerLimiter,
   loginLimiter,
   forgotPasswordLimiter,
   resetPasswordLimiter,
   changePasswordLimiter,
-} from '../src/middleware/rateLimit';
+} from '../src/middleware/rateLimit.ts';
 import jwt from 'jsonwebtoken';
 
 const app = createApp();

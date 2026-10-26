@@ -1,9 +1,9 @@
 import type { NextFunction, Request, Response } from 'express';
 import { randomBytes, timingSafeEqual } from 'crypto';
-import { env } from '../config/env';
-import { getCookieSecurityOptions, getCookieValues } from '../lib/cookies';
-import { ApiError } from '../lib/errors';
-import { sendError } from '../lib/response';
+import { env } from '../config/env.ts';
+import { getCookieSecurityOptions, getCookieValues } from '../lib/cookies.ts';
+import { ApiError } from '../lib/errors.ts';
+import { sendError } from '../lib/response.ts';
 
 const SAFE_METHODS = ['GET', 'HEAD', 'OPTIONS'];
 

@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Transporter } from 'nodemailer';
-import { prisma } from '../src/lib/prisma';
-import { hashToken } from '../src/lib/crypto';
+import { prisma } from '../src/lib/prisma.ts';
+import { hashToken } from '../src/lib/crypto.ts';
 import {
   clearEmailOutbox,
   getEmailOutbox,
   resetEmailServiceForTests,
   setEmailTransportForTests,
-} from '../src/services/email.service';
+} from '../src/services/email.service.ts';
 import {
   AUTH_COOKIE,
   deleteWithCsrf,
@@ -20,9 +20,9 @@ import {
   registerUser,
   resetRateLimits,
   sendWithCsrf,
-} from './helpers';
+} from './helpers.ts';
 import request from 'supertest';
-import { app } from './helpers';
+import { app } from './helpers.ts';
 
 const registerPayload = {
   name: 'Delete Me',

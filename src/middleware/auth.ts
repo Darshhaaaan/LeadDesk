@@ -1,11 +1,11 @@
 import type { NextFunction, Request, Response } from 'express';
-import { verifyAuthToken } from '../lib/jwt';
-import { prisma } from '../lib/prisma';
-import { env } from '../config/env';
-import { getCookieValue } from '../lib/cookies';
-import { ApiError, unauthorized } from '../lib/errors';
-import { toSafeUser } from '../lib/user';
-import { asyncHandler } from './asyncHandler';
+import { verifyAuthToken } from '../lib/jwt.ts';
+import { prisma } from '../lib/prisma.ts';
+import { env } from '../config/env.ts';
+import { getCookieValue } from '../lib/cookies.ts';
+import { ApiError, unauthorized } from '../lib/errors.ts';
+import { toSafeUser } from '../lib/user.ts';
+import { asyncHandler } from './asyncHandler.ts';
 
 /**
  * Reads the JWT from the auth cookie and verifies it.

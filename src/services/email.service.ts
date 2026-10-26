@@ -1,11 +1,11 @@
 import nodemailer from 'nodemailer';
 import type { SendMailOptions, Transporter } from 'nodemailer';
-import { env } from '../config/env';
-import { renderWelcomeEmail } from '../emails/templates/welcome';
-import { renderPasswordResetEmail } from '../emails/templates/password-reset';
-import { renderPasswordChangedEmail } from '../emails/templates/password-changed';
-import { renderAccountDeletedEmail } from '../emails/templates/account-deleted';
-import type { EmailBrand, RenderedEmail } from '../emails/types';
+import { env } from '../config/env.ts';
+import { renderWelcomeEmail } from '../emails/templates/welcome.ts';
+import { renderPasswordResetEmail } from '../emails/templates/password-reset.ts';
+import { renderPasswordChangedEmail } from '../emails/templates/password-changed.ts';
+import { renderAccountDeletedEmail } from '../emails/templates/account-deleted.ts';
+import type { EmailBrand, RenderedEmail } from '../emails/types.ts';
 
 export type EmailTemplateName = 'welcome' | 'password-reset' | 'password-changed' | 'account-deleted';
 

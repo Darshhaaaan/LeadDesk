@@ -1,19 +1,19 @@
 import { Router } from 'express';
 import type { Request } from 'express';
 import { z } from 'zod';
-import { requireAuth } from '../middleware/auth';
-import { csrfProtection } from '../middleware/csrf';
-import { asyncHandler } from '../middleware/asyncHandler';
-import { leadWriteLimiter } from '../middleware/rateLimit';
-import { sendSuccess } from '../lib/response';
-import { ApiError } from '../lib/errors';
-import * as leadService from '../services/lead.service';
+import { requireAuth } from '../middleware/auth.ts';
+import { csrfProtection } from '../middleware/csrf.ts';
+import { asyncHandler } from '../middleware/asyncHandler.ts';
+import { leadWriteLimiter } from '../middleware/rateLimit.ts';
+import { sendSuccess } from '../lib/response.ts';
+import { ApiError } from '../lib/errors.ts';
+import * as leadService from '../services/lead.service.ts';
 import {
   createLeadSchema,
   leadIdSchema,
   leadListQuerySchema,
   updateLeadSchema,
-} from '../validation/lead.schemas';
+} from '../validation/lead.schemas.ts';
 
 const router = Router();
 

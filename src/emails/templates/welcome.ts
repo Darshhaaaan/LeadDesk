@@ -1,5 +1,5 @@
-import { escapeHtml, paragraph, renderEmailLayout, renderEmailText } from '../layout';
-import type { EmailBrand, RenderedEmail } from '../types';
+import { escapeHtml, paragraph, renderEmailLayout, renderEmailText } from '../layout.ts';
+import type { EmailBrand, RenderedEmail } from '../types.ts';
 
 export interface WelcomeEmailData {
   brand: EmailBrand;

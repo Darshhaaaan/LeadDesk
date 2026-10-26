@@ -2,10 +2,10 @@ import express from 'express';
 import type { Express } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import { env } from './config/env';
-import authRoutes from './routes/auth.routes';
-import leadRoutes from './routes/lead.routes';
-import { errorHandler, notFoundHandler } from './lib/errorHandler';
+import { env } from './config/env.ts';
+import authRoutes from './routes/auth.routes.ts';
+import leadRoutes from './routes/lead.routes.ts';
+import { errorHandler, notFoundHandler } from './lib/errorHandler.ts';
 
 export const createApp = (): Express => {
   const app = express();

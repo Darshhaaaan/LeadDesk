@@ -1,16 +1,16 @@
-import { prisma } from '../lib/prisma';
-import { hashPassword, verifyPassword } from '../lib/password';
-import { signAuthToken, verifyAuthToken } from '../lib/jwt';
-import { generateSecureToken, hashToken } from '../lib/crypto';
-import { toSafeUser, type SafeUser } from '../lib/user';
-import { ApiError } from '../lib/errors';
+import { prisma } from '../lib/prisma.ts';
+import { hashPassword, verifyPassword } from '../lib/password.ts';
+import { signAuthToken, verifyAuthToken } from '../lib/jwt.ts';
+import { generateSecureToken, hashToken } from '../lib/crypto.ts';
+import { toSafeUser, type SafeUser } from '../lib/user.ts';
+import { ApiError } from '../lib/errors.ts';
 import {
   PASSWORD_RESET_TTL_MS,
   sendAccountDeletedEmail,
   sendPasswordChangedEmail,
   sendPasswordResetEmail,
   sendWelcomeEmail,
-} from './email.service';
+} from './email.service.ts';
 
 const PASSWORD_POLICY_MESSAGE =
   'Password must be at least 8 characters and at most 72 characters and must contain an uppercase letter, a lowercase letter, and a number.';

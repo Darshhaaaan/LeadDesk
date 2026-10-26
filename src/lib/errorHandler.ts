@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
-import { ApiError } from '../lib/errors';
-import { sendError } from '../lib/response';
+import { ApiError } from '../lib/errors.ts';
+import { sendError } from '../lib/response.ts';
 
 export const notFoundHandler = (req: Request, res: Response, next: NextFunction): void => {
   next(new ApiError(404, 'NOT_FOUND', 'Route not found.'));

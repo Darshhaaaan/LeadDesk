@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import request from 'supertest';
-import { prisma } from '../src/lib/prisma';
+import { prisma } from '../src/lib/prisma.ts';
 import {
   AUTH_COOKIE,
   app,
@@ -14,8 +14,8 @@ import {
   registerUser,
   resetRateLimits,
   sendWithCsrf,
-} from './helpers';
-import { resetEmailServiceForTests } from '../src/services/email.service';
+} from './helpers.ts';
+import { resetEmailServiceForTests } from '../src/services/email.service.ts';
 
 interface Session {
   cookie: string;

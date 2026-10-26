@@ -1,6 +1,6 @@
 import type { CookieOptions, Request, Response } from 'express';
-import { env } from '../config/env';
-import { getJwtExpiresInSeconds } from './jwt';
+import { env } from '../config/env.ts';
+import { getJwtExpiresInSeconds } from './jwt.ts';
 
 /**
  * Shared cookie security attributes.
