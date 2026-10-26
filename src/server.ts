@@ -1,4 +1,4 @@
-import { createApp } from './app.ts';
+import { createApp } from './app';
 import { env } from './config/env';
 import { prisma } from './lib/prisma';
 import { validateEmailConfiguration } from './services/email.service';
