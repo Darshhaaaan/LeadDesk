@@ -9,6 +9,8 @@ import { errorHandler, notFoundHandler } from './lib/errorHandler.ts';
 
 export const createApp = (): Express => {
   const app = express();
+  app.set('trust proxy', 1);
+
 
   app.use(helmet());
   app.use(
